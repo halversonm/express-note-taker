@@ -1,6 +1,6 @@
 const router = require("express").Router()
 const { v4: uuidv4 } = require("uuid")
-const {readFromFile, writeToFile, readAndAppend, readAndDelete } = require("../utils/helper")
+const { readFromFile, readAndAppend, readAndDelete } = require("../utils/helper")
 
 
 router.get("/notes", (req, res) => {
@@ -10,11 +10,18 @@ router.get("/notes", (req, res) => {
 })
 
 router.post("/notes", (req, res) => {
-       
+    const noteToCreate = { 
+        title: req.body.title, 
+        text: req.body.text, 
+        id: uuidv4() 
+    }
+
+    readAndAppend(noteToCreate, "./db/db.json");
+    res.json(noteToCreate)
 })
 
 router.delete("/notes/:id", (req, res) => {
-    
+
 })
 
 module.exports = router;
